@@ -1,0 +1,27 @@
+package ru.nightmare.hex.model;
+
+public enum Type {
+    empty,
+    factory,
+    refinery,
+    watchTower,
+    defenseTower,
+    harvester,
+    resource,
+    solarPanel,
+    powerPlant,
+    waterMill,
+    waterPomp,
+    mine,
+    netTower,
+    infantry,
+    rocketSquad,
+    buggy,
+    tank,
+    ship,
+    portal,
+    warpMachine,
+    spaceShip,
+    Builder,
+    animal,
+}

@@ -71,7 +71,7 @@ public class Client implements World {
 
     @Override
     public void act(Action action) throws IOException {
-        out.writeUTF(Util.gson.toJson(action));
+        out.writeUTF("act:"+Util.gson.toJson(action));
     }
 
     @Override

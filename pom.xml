@@ -75,7 +75,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>ru.nightmare.hex/ru.nightmare.hex.HelloApplication</mainClass>
+                            <mainClass>ru.nightmare.hex/ru.nightmare.hex.HexApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

@@ -88,6 +88,7 @@ public class Client implements World {
             out = new DataOutputStream(socket.getOutputStream());
             return true;
         } catch(Exception e) {
+            Util.world = null;
             return false;
         }
     }

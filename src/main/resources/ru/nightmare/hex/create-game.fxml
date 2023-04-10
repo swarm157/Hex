@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ru.nightmare.hex.controller.CreateGame"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="525.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nightmare.hex.controller.CreateGame">
+   <children>
+      <Canvas fx:id="canvas" height="200.0" layoutX="14.0" layoutY="76.0" width="200.0" />
+      <Button fx:id="create" layoutX="318.0" layoutY="307.0" mnemonicParsing="false" text="Create" />
+      <Button fx:id="reset" layoutX="392.0" layoutY="307.0" mnemonicParsing="false" text="Reset" />
+      <Button fx:id="exit" layoutX="454.0" layoutY="307.0" mnemonicParsing="false" text="Exit" />
+      <TextField fx:id="name" layoutX="232.0" layoutY="116.0" prefHeight="24.0" prefWidth="145.0" />
+      <TextField fx:id="port" layoutX="232.0" layoutY="152.0" prefHeight="24.0" prefWidth="72.0" text="25565" />
+      <TextField fx:id="width" layoutX="232.0" layoutY="188.0" prefHeight="24.0" prefWidth="72.0" text="16" />
+      <TextField fx:id="height" layoutX="232.0" layoutY="224.0" prefHeight="24.0" prefWidth="72.0" text="12" />
+      <Label layoutX="397.0" layoutY="120.0" text="nickname" />
+      <Label layoutX="396.0" layoutY="156.0" text="server port" />
+      <Label layoutX="396.0" layoutY="192.0" text="width" />
+      <Label layoutX="399.0" layoutY="228.0" text="height" />
+      <ColorPicker fx:id="picker" layoutX="232.0" layoutY="76.0" />
+      <Label layoutX="393.0" layoutY="80.0" text="player color" />
+      <Label layoutX="402.0" layoutY="268.0" text="player count" />
+      <Label layoutX="22.0" layoutY="359.0" text="Status:" />
+      <Label layoutX="23.0" layoutY="335.0" text="Players:" />
+      <Label layoutX="23.0" layoutY="311.0" text="Width:" />
+      <Label layoutX="21.0" layoutY="288.0" text="Height:" />
+      <Label fx:id="players" layoutX="79.0" layoutY="335.0" text="disconnected" />
+      <Label fx:id="status" layoutX="79.0" layoutY="359.0" text="disconnected" />
+      <Label fx:id="widthL" layoutX="79.0" layoutY="311.0" text="disconnected" />
+      <Label fx:id="heightL" layoutX="79.0" layoutY="288.0" text="disconnected" />
+      <Button fx:id="generate" layoutX="232.0" layoutY="307.0" mnemonicParsing="false" text="generate" />
+      <TextField fx:id="playersCount" layoutX="232.0" layoutY="264.0" prefHeight="24.0" prefWidth="154.0" text="2" />
+   </children>
 </AnchorPane>

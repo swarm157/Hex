@@ -2,10 +2,7 @@ package ru.nightmare.hex.net.server;
 
 import javafx.scene.paint.Color;
 import ru.nightmare.hex.controller.component.Util;
-import ru.nightmare.hex.model.Action;
-import ru.nightmare.hex.model.GameStatus;
-import ru.nightmare.hex.model.Hex;
-import ru.nightmare.hex.model.Player;
+import ru.nightmare.hex.model.*;
 import ru.nightmare.hex.net.World;
 
 import java.io.DataInputStream;
@@ -32,12 +29,57 @@ public class Server implements World {
     private Hex[][][] visions = null;
     private Thread game = null;
     private Thread receiver = null;
-    protected int secs = 15;
+    protected int secs = 5;
 
     protected int width;
     protected int height;
 
     private void initWorld() {
+        world = new Hex[width][height];
+        for(int i = 0; i < width; i++) {
+            world[i] = new Hex[height];
+            for(int o = 0; o < height; o++) {
+                Hex hex= new Hex();
+                world[i][o] = hex;
+            }
+        }
+        Hex[][] matrix = world; //здесь создаем пустую матрицу 10x10
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                matrix[i][j].setBiome(Biomes.values()[random.nextInt(0, Biomes.values().length-1)]);
+            }
+        }
+
+        /*world = new Hex[width][height];
+        HashSet<Hex> emptyHex = new HashSet<>();
+        for(int i = 0; i < width; i++) {
+            world[i] = new Hex[height];
+            for(int o = 0; o < height; o++) {
+                Hex hex= new Hex();
+                emptyHex.add(hex);
+                world[i][o] = hex;
+            }
+        }
+        HashSet<Hex> delete = new HashSet<>();
+        Random random = new Random(System.currentTimeMillis());
+        while (!emptyHex.isEmpty()) {
+            Hex hex = (Hex) emptyHex.toArray()[random.nextInt(0, emptyHex.size()-1)];
+            int x, y;
+            Biomes biomes = Biomes.values()[random.nextInt(0, Biomes.values().length)];
+            found: for(int i = 0; i < width; i++) {
+                for(int o = 0; o < height; o++) {
+                    if (world[i][o].equals(hex)) {
+                        x=i;
+                        y=o;
+                        break found;
+                    }
+                }
+            }
+
+
+            emptyHex.remove(delete);
+        }*/
 
     }
     public Server(int width, int height, int playerCount, int port, int resources) throws IOException, InterruptedException {
@@ -45,13 +87,18 @@ public class Server implements World {
         this.height = height;
         players = new HashMap<>();
         Random rand = new Random(System.currentTimeMillis());
-        for(int i = 0; i < playerCount; i++) {
+        players.put(new Player(resources, Color.rgb(rand.nextInt(0, 255), rand.nextInt(0, 255), rand.nextInt(0, 255))), new Socket());
+        for(int i = 0; i < playerCount-1; i++) {
             players.put(new Player(resources, Color.rgb(rand.nextInt(0, 255), rand.nextInt(0, 255), rand.nextInt(0, 255))), null);
         }
         this.port = port;
-        socket = new ServerSocket(port);
         initWorld();
         receiver = new Thread(() -> {
+            try {
+                socket = new ServerSocket(port);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -69,11 +116,17 @@ public class Server implements World {
                     }
                     if (client!=null&&!players.containsValue(client)) client.close();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    if (status!=GameStatus.ended)
+                        throw new RuntimeException(e);
                 }
             }
+            try {
+                socket.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
-        receiver.start();
+
         server = new Thread(() -> {
             try {
                 Thread.sleep(500);
@@ -128,7 +181,10 @@ public class Server implements World {
                                             out.writeUTF(Util.gson.toJson(players));
                                             break;
                                         case "vision":
-                                            out.writeUTF(Util.gson.toJson(visions[player.getId()]));
+                                            if(visions!=null)
+                                                out.writeUTF(Util.gson.toJson(visions[player.getId()]));
+                                            else
+                                                out.writeUTF(Util.gson.toJson(world));
                                             break;
                                         default:
                                             out.writeUTF("wrong request");
@@ -142,12 +198,12 @@ public class Server implements World {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
             }
         });
-        server.start();
+
         game = new Thread(new Game());
-        game.start();
+
     }
     @Override
     public GameStatus getGameStatus() throws IOException {
@@ -166,7 +222,7 @@ public class Server implements World {
 
     @Override
     public int getSecondsBeforeStart() throws IOException {
-        return 0;
+        return secs;
     }
 
     @Override
@@ -196,11 +252,16 @@ public class Server implements World {
 
     @Override
     public Hex[][] getVision() throws IOException {
+        if ((status.equals(GameStatus.playing)||status.equals(GameStatus.paused)))
         return new Hex[0][];
+        else return world;
     }
 
     @Override
     public boolean join() {
+        receiver.start();
+        server.start();
+        game.start();
         return true;
     }
 
@@ -217,6 +278,7 @@ public class Server implements World {
     @Override
     public void close() throws IOException {
         status = GameStatus.ended;
+        socket.close();
     }
 
     @Override

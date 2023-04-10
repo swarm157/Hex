@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ru.nightmare.hex.controller.GameActive"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="525.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nightmare.hex.controller.GameActive">
+   <children>
+      <Canvas fx:id="map" height="283.0" layoutX="14.0" layoutY="14.0" width="502.0" />
+      <Button fx:id="minimapRender" layoutX="114.0" layoutY="299.0" mnemonicParsing="false" text="map" />
+      <Canvas fx:id="minimap" height="87.0" layoutX="21.0" layoutY="299.0" width="87.0" />
+      <Button fx:id="pause" layoutX="114.0" layoutY="331.0" mnemonicParsing="false" text="pause" />
+      <Button fx:id="exit" layoutX="116.0" layoutY="362.0" mnemonicParsing="false" text="exit" />
+      <Button fx:id="fourth" layoutX="416.0" layoutY="331.0" mnemonicParsing="false" text="4" />
+      <Button fx:id="units" layoutX="335.0" layoutY="331.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="77.0" text="units" />
+      <Button fx:id="seventh" layoutX="416.0" layoutY="362.0" mnemonicParsing="false" text="7" />
+      <Button fx:id="second" layoutX="450.0" layoutY="299.0" mnemonicParsing="false" text="2" />
+      <Button fx:id="third" layoutX="484.0" layoutY="299.0" mnemonicParsing="false" text="3" />
+      <Button fx:id="fifth" layoutX="450.0" layoutY="331.0" mnemonicParsing="false" text="5" />
+      <Button fx:id="sixth" layoutX="484.0" layoutY="331.0" mnemonicParsing="false" text="6" />
+      <Button fx:id="eighth" layoutX="450.0" layoutY="362.0" mnemonicParsing="false" text="8" />
+      <Button fx:id="ninth" layoutX="484.0" layoutY="362.0" mnemonicParsing="false" text="9" />
+      <Button fx:id="first" layoutX="416.0" layoutY="299.0" mnemonicParsing="false" text="1" />
+      <Button fx:id="buildings" layoutX="335.0" layoutY="299.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="77.0" text="buildings" />
+      <Button fx:id="attack" layoutX="172.0" layoutY="299.0" mnemonicParsing="false" text="A" />
+      <Button fx:id="stop" layoutX="203.0" layoutY="299.0" mnemonicParsing="false" text="S" />
+      <Button fx:id="move" layoutX="234.0" layoutY="299.0" mnemonicParsing="false" text="M" />
+      <Button fx:id="portal" layoutX="217.0" layoutY="331.0" mnemonicParsing="false" text="P" />
+      <Button fx:id="warp" layoutX="184.0" layoutY="331.0" mnemonicParsing="false" text="W" />
+      <Button fx:id="build" layoutX="249.0" layoutY="331.0" mnemonicParsing="false" text="B" />
+      <Label layoutX="170.0" layoutY="366.0" text="resources:" />
+      <Label fx:id="resources" layoutX="245.0" layoutY="366.0" text="init" />
+      <ProgressBar fx:id="energy" layoutX="276.0" layoutY="364.0" prefHeight="20.0" prefWidth="136.0" progress="0.0" />
+      <Label fx:id="players" layoutX="266.0" layoutY="303.0" prefHeight="16.0" prefWidth="68.0" text="players" />
+   </children>
 </AnchorPane>

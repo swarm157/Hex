@@ -5,7 +5,9 @@ module ru.nightmare.hex {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires com.google.gson;
-
+    requires java.base;
+    requires javafx.base;
+    requires javafx.graphics;
     opens ru.nightmare.hex to javafx.fxml, com.google.gson;
     exports ru.nightmare.hex;
     exports ru.nightmare.hex.controller;

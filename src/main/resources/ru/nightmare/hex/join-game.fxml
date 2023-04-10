@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ru.nightmare.hex.controller.JoinGame"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="525.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nightmare.hex.controller.JoinGame">
+   <children>
+      <Button fx:id="connect" layoutX="250.0" layoutY="258.0" mnemonicParsing="false" text="Connect" />
+      <Button fx:id="cancel" layoutX="344.0" layoutY="258.0" mnemonicParsing="false" text="Cancel" />
 
+      <TextField fx:id="ip" layoutX="252.0" layoutY="99.0" prefHeight="24.0" prefWidth="197.0" text="192.168." />
+
+      <Button fx:id="clear" layoutX="430.0" layoutY="258.0" mnemonicParsing="false" text="Clear" />
+      <TextField fx:id="port" layoutX="252.0" layoutY="142.0" prefHeight="24.0" prefWidth="124.0" text="25565" />
+
+      <ColorPicker fx:id="picker" layoutX="250.0" layoutY="222.0" />
+      <Label layoutX="404.0" layoutY="226.0" text="player color" />
+      <TextField fx:id="name" layoutX="252.0" layoutY="180.0" prefHeight="24.0" prefWidth="145.0" />
+
+      <Canvas fx:id="canvas" height="182.0" layoutX="14.0" layoutY="99.0" width="197.0" />
+      <Label layoutX="467.0" layoutY="103.0" text="ip" />
+      <Label layoutX="417.0" layoutY="184.0" text="nickname" />
+      <Label layoutX="407.0" layoutY="146.0" text="server port" />
+      <Label layoutX="22.0" layoutY="359.0" text="Status:" />
+      <Label layoutX="23.0" layoutY="335.0" text="Players:" />
+      <Label layoutX="23.0" layoutY="311.0" text="Width:" />
+      <Label layoutX="21.0" layoutY="288.0" text="Height:" />
+      <Label fx:id="status" layoutX="79.0" layoutY="288.0" text="disconnected" />
+      <Label fx:id="players" layoutX="79.0" layoutY="311.0" text="disconnected" />
+      <Label fx:id="width" layoutX="79.0" layoutY="335.0" text="disconnected" />
+      <Label fx:id="height" layoutX="79.0" layoutY="359.0" text="disconnected" />
+   </children>
 </AnchorPane>

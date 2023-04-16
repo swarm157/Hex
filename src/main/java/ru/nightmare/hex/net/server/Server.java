@@ -252,9 +252,11 @@ public class Server implements World {
 
     @Override
     public Hex[][] getVision() throws IOException {
-        if ((status.equals(GameStatus.playing)||status.equals(GameStatus.paused)))
-        return new Hex[0][];
-        else return world;
+        if ((status.equals(GameStatus.playing)||status.equals(GameStatus.paused))) {
+            if (visions!=null&&visions[0].length>0)
+            return visions[0];
+            else return world;
+        } else return world;
     }
 
     @Override

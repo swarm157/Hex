@@ -37,12 +37,15 @@ public class JoinGame {
     public Label width;
     public Label height;
     public ColorPicker picker;
-
+    boolean s = true;
     @FXML
     public void initialize() {
+        Util.Audio.play(Util.Audio.lobby);
+
         canvas.setOnMouseMoved(new GamePreviewMouseHandler(canvas));
         name.setText(Settings.getName());
         picker.setValue(new Color(Math.random(), Math.random(),Math.random(),Math.random()));
+
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
 
@@ -50,6 +53,10 @@ public class JoinGame {
                 try {
 
                     if(world.getGameStatus()== GameStatus.starting) {
+                        if (s) {
+                            Util.Audio.play(Util.Audio.countdown);
+                            s = false;
+                        }
                         status.setText(String.valueOf(world.getSecondsBeforeStart()));
                     } else {
                         status.setText(world.getGameStatus().toString());
@@ -111,6 +118,16 @@ public class JoinGame {
                 throw new RuntimeException(e);
             }*/
             Util.world.join();
+            try {
+                world.setColor(picker.getValue());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                world.setName(name.getText());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 Util.drawHexagons(radius, world.getVision(), Camera.x, Camera.y, canvas.getGraphicsContext2D(), 0, 0);
             } catch (IOException e) {

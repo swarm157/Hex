@@ -8,6 +8,7 @@ module ru.nightmare.hex {
     requires java.base;
     requires javafx.base;
     requires javafx.graphics;
+    requires javafx.media;
     opens ru.nightmare.hex to javafx.fxml, com.google.gson;
     exports ru.nightmare.hex;
     exports ru.nightmare.hex.controller;

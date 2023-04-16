@@ -44,10 +44,11 @@ public class CreateGame {
     public Button generate;
     public Label players;
     public TextField playersCount;
-
+    boolean s = true;
 
     @FXML
     public void initialize() throws IOException {
+        Util.Audio.play(Util.Audio.lobby);
 
         name.setText(Settings.getName());
         picker.setValue(new Color(Math.random(), Math.random(),Math.random(),Math.random()));
@@ -58,6 +59,10 @@ public class CreateGame {
                 try {
 
                     if(world.getGameStatus()==GameStatus.starting) {
+                        if (s) {
+                            Util.Audio.play(Util.Audio.countdown);
+                            s = false;
+                        }
                         status.setText(String.valueOf(world.getSecondsBeforeStart()));
                     } else {
                         status.setText(world.getGameStatus().toString());
@@ -149,7 +154,16 @@ public class CreateGame {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
+            try {
+                world.setColor(picker.getValue());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                world.setName(name.getText());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         reset.setOnAction(actionEvent -> {
             width.clear();
@@ -161,7 +175,6 @@ public class CreateGame {
         exit.setOnAction(actionEvent -> {
             HexApplication.setScene("main-menu.fxml");
         });
-        IntegerProperty x = new SimpleIntegerProperty(8);
     }
 
 }

@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import ru.nightmare.hex.HexApplication;
+import ru.nightmare.hex.controller.component.Util;
 
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ public class MainMenu {
 
     @FXML
     public void initialize() {
+        Util.Audio.play(Util.Audio.menu);
         exit.setOnAction(actionEvent -> {
             System.exit(0);
         });

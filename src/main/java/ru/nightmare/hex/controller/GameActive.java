@@ -1,10 +1,26 @@
 package ru.nightmare.hex.controller;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
+import ru.nightmare.hex.controller.component.Camera;
+import ru.nightmare.hex.controller.component.Util;
+import ru.nightmare.hex.model.Action;
+import ru.nightmare.hex.model.Hex;
+import ru.nightmare.hex.net.World;
+
+import java.io.IOException;
+
+import static ru.nightmare.hex.controller.component.Camera.radius;
 
 public class GameActive {
     public Canvas map;
@@ -32,8 +48,55 @@ public class GameActive {
     public Label resources;
     public ProgressBar energy;
     public Label players;
+    private Action action;
+    private double mX = 0, mY = 0;
+
+
     @FXML
     public void initialize() {
+        System.out.println(123123);
+        Util.Audio.play(Util.Audio.battle1);
 
+        GraphicsContext gc = map.getGraphicsContext2D();
+
+        map.setOnMouseMoved(e -> {
+            mX = e.getX();
+            mY = e.getY();
+            Hex[][] vs= Util.bufferedVision;
+            if (vs!=null&&Util.bufferedVision.length>0)
+                Util.drawHexagons(radius, vs, Camera.x, Camera.y, gc, mX, mY);
+        });
+
+        map.setOnMouseDragged(e -> {
+            Hex[][] vs= Util.bufferedVision;
+            if (vs!=null&&Util.bufferedVision.length>0)
+                Util.drawHexagons(radius, vs, Camera.x, Camera.y, gc, mX, mY);
+            System.out.println(e.toString());
+        });
+        map.setOnMouseClicked(e -> {
+            Hex[][] vs= Util.bufferedVision;
+            if (vs!=null&&Util.bufferedVision.length>0)
+                Util.drawHexagons(radius, vs, Camera.x, Camera.y, gc, mX, mY);
+        });
+        Timeline render = new Timeline(new KeyFrame(Duration.seconds(0.02), event -> {
+            Hex[][] vs= Util.bufferedVision;
+            if (vs!=null&&Util.bufferedVision.length>0)
+                Util.drawHexagons(radius, vs, Camera.x, Camera.y, gc, mX, mY);
+        }));
+        render.setCycleCount(Animation.INDEFINITE);
+        //render.play();
+        Timeline net = new Timeline(new KeyFrame(Duration.seconds(0.06), event -> {
+            try {
+                Util.bufferedVision = Util.world.getVision();
+                if (action!=null) {
+                    Util.world.act(action);
+                    action=null;
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }));
+        net.setCycleCount(Animation.INDEFINITE);
+        net.play();
     }
 }

@@ -1,6 +1,7 @@
 package ru.nightmare.hex;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -22,6 +23,7 @@ public class HexApplication extends Application {
         //stage.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.F11));
         stage.setScene(scene);
         stage.setTitle("Hex");
+        //Platform.setImplicitExit(false);
         stage.show();
     }
 

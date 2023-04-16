@@ -26,9 +26,9 @@
       <Label layoutX="23.0" layoutY="335.0" text="Players:" />
       <Label layoutX="23.0" layoutY="311.0" text="Width:" />
       <Label layoutX="21.0" layoutY="288.0" text="Height:" />
-      <Label fx:id="status" layoutX="79.0" layoutY="288.0" text="disconnected" />
-      <Label fx:id="players" layoutX="79.0" layoutY="311.0" text="disconnected" />
-      <Label fx:id="width" layoutX="79.0" layoutY="335.0" text="disconnected" />
-      <Label fx:id="height" layoutX="79.0" layoutY="359.0" text="disconnected" />
+      <Label fx:id="height" layoutX="79.0" layoutY="288.0" text="disconnected" />
+      <Label fx:id="width" layoutX="79.0" layoutY="311.0" text="disconnected" />
+      <Label fx:id="players" layoutX="79.0" layoutY="335.0" text="disconnected" />
+      <Label fx:id="status" layoutX="79.0" layoutY="359.0" text="disconnected" />
    </children>
 </AnchorPane>

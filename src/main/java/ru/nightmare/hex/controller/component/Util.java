@@ -6,6 +6,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import ru.nightmare.hex.model.Hex;
 import ru.nightmare.hex.net.World;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 
 public class Util {
     public static WritableImage screenshot;
@@ -40,7 +43,6 @@ public class Util {
         int numCols = matrix[0].length;
         double height = (3 * radius) / 2;
         double width = Math.sqrt(3) * radius;
-
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 double x = startX + col * width + (row % 2) * (width / 2);
@@ -124,6 +126,27 @@ public class Util {
     public static boolean isPointInRange(double centerX, double centerY, double radius, double pointX, double pointY) {
         double distance = Math.sqrt(Math.pow((pointX - centerX), 2) + Math.pow((pointY - centerY), 2));
         return distance <= radius;
+    }
+
+    public static class Audio {
+        public static final String countdown =  "sound/game-start-countdown-SBA-300420112-preview.mp3";
+        public static final String lobby =  "sound/Lobby-Time.mp3";
+        public static final String menu  =  "sound/Space-Jazz.mp3";
+        public static final String battle1 =  "sound/battle/Enigma-Long-Version-Complete-Version.mp3";
+        public static final String battle2  =  "sound/battle/Fall-From-Grace.mp3";
+        public static final String battle3 =  "sound/battle/BossBattle_0073_BPM110_Cm_Hydra-and-Ash_L.mp3";
+        private static MediaPlayer mediaPlayer;
+
+        public static void play(String name) {
+            if (mediaPlayer!=null)
+                mediaPlayer.stop();
+            Media sound = new Media(new File(name).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
+            mediaPlayer.setCycleCount(-1);
+            mediaPlayer.setAutoPlay(true);
+            mediaPlayer.setVolume(20);
+        }
     }
 
 

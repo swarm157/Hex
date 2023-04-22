@@ -15,10 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import ru.nightmare.hex.HexApplication;
-import ru.nightmare.hex.controller.component.Camera;
-import ru.nightmare.hex.controller.component.GamePreviewMouseHandler;
-import ru.nightmare.hex.controller.component.Settings;
-import ru.nightmare.hex.controller.component.Util;
+import ru.nightmare.hex.controller.component.*;
 import ru.nightmare.hex.model.GameStatus;
 import ru.nightmare.hex.net.server.Server;
 
@@ -45,15 +42,16 @@ public class CreateGame {
     public Label players;
     public TextField playersCount;
     boolean s = true;
-
+    Timeline timeline = null;
     @FXML
     public void initialize() throws IOException {
+        Camera.reset();
         Util.Audio.play(Util.Audio.lobby);
 
         name.setText(Settings.getName());
         picker.setValue(new Color(Math.random(), Math.random(),Math.random(),Math.random()));
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
 
             if(world!=null) {
                 try {
@@ -88,6 +86,8 @@ public class CreateGame {
                 try {
                     if(world.getGameStatus()!=GameStatus.awaiting&&world.getGameStatus()!=GameStatus.starting) {
                         HexApplication.setScene("game-active.fxml");
+                        timeline.stop();
+
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -106,7 +106,7 @@ public class CreateGame {
                     world.close();
                 }
                 Util.world = new Server(Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), Integer.parseInt(playersCount.getText()), Integer.parseInt(port.getText()), 2000);
-                Util.drawHexagons(radius, world.getVision(), Camera.x, Camera.y, canvas.getGraphicsContext2D(), 0, 0);
+                Util.drawHexagons(radius, world.getVision(), Camera.x, Camera.y, canvas.getGraphicsContext2D(), 0, 0, RenderType.full);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (InterruptedException e) {
@@ -173,6 +173,7 @@ public class CreateGame {
             playersCount.clear();
         });
         exit.setOnAction(actionEvent -> {
+            timeline.stop();
             HexApplication.setScene("main-menu.fxml");
         });
     }

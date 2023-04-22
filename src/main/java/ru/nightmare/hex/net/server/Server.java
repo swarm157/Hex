@@ -280,7 +280,8 @@ public class Server implements World {
     @Override
     public void close() throws IOException {
         status = GameStatus.ended;
-        socket.close();
+        if (socket!=null)
+            socket.close();
     }
 
     @Override

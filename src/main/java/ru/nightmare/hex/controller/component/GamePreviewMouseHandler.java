@@ -30,7 +30,7 @@ public class GamePreviewMouseHandler implements EventHandler<MouseEvent> {
         gc.clearRect(0, 0, canvasWidth, canvasHeight);// очищаем Canvas
         try {
             if(world!=null)
-            Util.drawHexagons(radius, world.getVision(), Camera.x, Camera.y, canvas.getGraphicsContext2D(), mouseX, mouseY);
+                Util.drawHexagons(radius, world.getVision(), Camera.x, Camera.y, canvas.getGraphicsContext2D(), 0, 0, RenderType.full);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

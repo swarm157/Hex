@@ -12,14 +12,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+import ru.nightmare.hex.HexApplication;
 import ru.nightmare.hex.controller.component.Camera;
 import ru.nightmare.hex.controller.component.Util;
 import ru.nightmare.hex.model.Action;
+import ru.nightmare.hex.model.GameStatus;
 import ru.nightmare.hex.model.Hex;
 import ru.nightmare.hex.net.World;
 
 import java.io.IOException;
 
+import static ru.nightmare.hex.controller.component.Camera.minRadius;
 import static ru.nightmare.hex.controller.component.Camera.radius;
 
 public class GameActive {
@@ -50,14 +53,37 @@ public class GameActive {
     public Label players;
     private Action action;
     private double mX = 0, mY = 0;
-
+    int n = 0;
 
     @FXML
     public void initialize() {
-        System.out.println(123123);
-        Util.Audio.play(Util.Audio.battle1);
 
+        Util.Audio.play(Util.Audio.battle1);
         GraphicsContext gc = map.getGraphicsContext2D();
+
+        pause.setOnAction(e -> {
+            try {
+                if (Util.world.getGameStatus()==GameStatus.paused) {
+                    pause.setText("pause");
+                    Util.world.continue_();
+                } else {
+                    pause.setText("continue");
+                    Util.world.pause();
+                }
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        exit.setOnAction(e -> {
+            try {
+                Util.world.close();
+                HexApplication.setScene("main-menu.fxml");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
 
         map.setOnMouseMoved(e -> {
             mX = e.getX();
@@ -80,11 +106,13 @@ public class GameActive {
         });
         Timeline render = new Timeline(new KeyFrame(Duration.seconds(0.02), event -> {
             Hex[][] vs= Util.bufferedVision;
-            if (vs!=null&&Util.bufferedVision.length>0)
+            if (vs!=null&&Util.bufferedVision.length>0) {
                 Util.drawHexagons(radius, vs, Camera.x, Camera.y, gc, mX, mY);
+                Util.drawHexagons(minRadius, vs, Camera.x, Camera.y, minimap.getGraphicsContext2D(), 0, 0);
+            }
         }));
         render.setCycleCount(Animation.INDEFINITE);
-        //render.play();
+        render.play();
         Timeline net = new Timeline(new KeyFrame(Duration.seconds(0.06), event -> {
             try {
                 Util.bufferedVision = Util.world.getVision();

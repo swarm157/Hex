@@ -12,7 +12,7 @@ public enum Type {
     powerPlant,
     waterMill,
     waterPomp,
-    mine,
+    miner,
     netTower,
     infantry,
     rocketSquad,
@@ -22,6 +22,6 @@ public enum Type {
     portal,
     warpMachine,
     spaceShip,
-    Builder,
+    builder,
     animal,
 }

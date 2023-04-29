@@ -32,6 +32,7 @@ public class Hex {
         hidden = false;
         health = 0;
         level = 0;
+        this.type = Type.empty;
     }
 
     public int getOwnerId() {

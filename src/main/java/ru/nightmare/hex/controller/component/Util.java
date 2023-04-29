@@ -1,19 +1,25 @@
 package ru.nightmare.hex.controller.component;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import com.google.gson.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import ru.nightmare.hex.model.Hex;
+import ru.nightmare.hex.model.Point;
 import ru.nightmare.hex.model.Type;
 import ru.nightmare.hex.net.World;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import static ru.nightmare.hex.controller.component.Camera.radius;
+import static ru.nightmare.hex.controller.component.Camera.zoom;
 
 public class Util {
     public static WritableImage screenshot;
@@ -102,98 +108,103 @@ public class Util {
         }
     }
     private static void drawPics(Hex hex, GraphicsContext gc, double x, double y) {
-                if (hex.getOwnerId()>=0) switch (hex.getType()) {
+                if (hex.getOwnerId()>=0) {
+                    Image img = null;
+                    switch (hex.getType()) {
                     case empty -> {
                         break;
                     }
                     case factory -> {
-                        gc.drawImage(Source.factory.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img = Source.factory.getImage();
                         break;
                     }
                     case refinery -> {
-                        gc.drawImage(Source.refinery.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.refinery.getImage();
                         break;
                     }
                     case watchTower -> {
-                        gc.drawImage(Source.watchTower.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.watchTower.getImage();
                         break;
                     }
                     case defenseTower -> {
-                        gc.drawImage(Source.defenseTower.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.defenseTower.getImage();
                         break;
                     }
                     case harvester -> {
-                        gc.drawImage(Source.harvester.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.harvester.getImage();
                         break;
                     }
                     case resource -> {
-                        gc.drawImage(Source.resource.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.resource.getImage();
                         break;
                     }
                     case solarPanel -> {
-                        gc.drawImage(Source.solarPanel.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.solarPanel.getImage();
                         break;
                     }
                     case powerPlant -> {
-                        gc.drawImage(Source.powerPlant.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.powerPlant.getImage();
                         break;
                     }
                     case waterMill -> {
-                        gc.drawImage(Source.waterMill.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.waterMill.getImage();
                         break;
                     }
                     case waterPomp -> {
-                        gc.drawImage(Source.waterPomp.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.waterPomp.getImage();
                         break;
                     }
                     case miner -> {
-                        gc.drawImage(Source.miner.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.miner.getImage();
                         break;
                     }
                     case netTower -> {
-                        gc.drawImage(Source.netTower.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.netTower.getImage();
                         break;
                     }
                     case infantry -> {
-                        gc.drawImage(Source.infantry.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.infantry.getImage();
                         break;
                     }
                     case rocketSquad -> {
-                        gc.drawImage(Source.rocketSquad.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.rocketSquad.getImage();
                         break;
                     }
                     case buggy -> {
-                        gc.drawImage(Source.buggy.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.buggy.getImage();
                         break;
                     }
                     case tank -> {
-                        gc.drawImage(Source.tank.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.tank.getImage();
                         break;
                     }
                     case ship -> {
-                        gc.drawImage(Source.ship.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.ship.getImage();
                         break;
                     }
                     case portal -> {
-                        gc.drawImage(Source.portal.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.portal.getImage();
                         break;
                     }
                     case warpMachine -> {
-                        gc.drawImage(Source.warpMachine.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.warpMachine.getImage();
                         break;
                     }
                     case spaceShip -> {
-                        gc.drawImage(Source.spaceShip.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.spaceShip.getImage();
                         break;
                     }
                     case builder -> {
-                        gc.drawImage(Source.builder.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.builder.getImage();
                         break;
                     }
                     case animal -> {
-                        gc.drawImage(Source.animal.getImage(), x-radius/1.5, y-radius/1.5, radius, radius);
+                        img =Source.animal.getImage();
                         break;
                     }
+                }
+                if (img!=null)
+                    gc.drawImage(img, x * zoom - radius / 1.5 * zoom, y * zoom - radius / 1.5 * zoom, radius * zoom, radius * zoom);
                 }
     }
     public static void drawHexagons(double radius, Hex[][] matrix, double startX, double startY, GraphicsContext gc, double mX, double mY, RenderType type) {
@@ -214,8 +225,8 @@ public class Util {
                 // вычисляем координаты вершин шестиугольника
                 for (int i = 0; i < 6; i++) {
                     double angle = 2 * Math.PI / 6 * i;
-                    xPoints[i] = x + radius * Math.cos(angle);
-                    yPoints[i] = y + radius * Math.sin(angle);
+                    xPoints[i] = x*zoom + radius * Math.cos(angle)*zoom;
+                    yPoints[i] = y*zoom + radius * Math.sin(angle)*zoom;
                 }
 
                 double xC = findAverage(xPoints);
@@ -223,7 +234,7 @@ public class Util {
 
                 // выбираем цвет для заливки и обводки в зависимости от номера
                 gc.setStroke(Color.BLACK);
-                if(!isPointInRange(xC, yC, radius-0.5, mX, mY))
+                if(!isPointInRange(xC, yC, (radius-0.5)*zoom, mX, mY))
                     switch (type) {
 
                         case full -> {
@@ -257,6 +268,38 @@ public class Util {
             }
         }
     }
+
+    public static List<Hex> hexRange(Hex[][] matrix, double range, int xC, int yC) {
+        List<Hex> found = new ArrayList<>();
+        for (int i = 0; i < matrix.length; i++) {
+            for(int o = 0; o < matrix[0].length; o++)
+                if (isPointInRange(xC, yC, range, i, o)) {
+                    found.add(matrix[i][o]);
+                }
+        }
+        return found;
+    }
+
+    public static List<Point> pointRange(Hex[][] matrix, double range, int xC, int yC) {
+        List<Point> found = new ArrayList<>();
+        for (int i = 0; i < matrix.length; i++) {
+            for(int o = 0; o < matrix[0].length; o++)
+                if (isPointInRange(xC, yC, range, i, o)) {
+                    found.add(new Point(i, o));
+                }
+        }
+        return found;
+    }
+
+    public static boolean isHexInRange(int xC, int yC, double range, int x, int y) {
+        return isPointInRange(xC, yC, range, x, y);
+    }
+
+    public static Path findPath(Hex[][] matrix, Point start, Point finish) {
+
+        Node root = new Node(start, pointRange(matrix, 1.1, start.getX(), start.getY()));
+    }
+
     public static double findAverage(double[] numbers) {
         double sum = 0.0;
         for (double number : numbers) {
@@ -268,6 +311,21 @@ public class Util {
     public static boolean isPointInRange(double centerX, double centerY, double radius, double pointX, double pointY) {
         double distance = Math.sqrt(Math.pow((pointX - centerX), 2) + Math.pow((pointY - centerY), 2));
         return distance <= radius;
+    }
+    public static double limitValue(double value, double min, double max) {
+        if (value<min) value = min;
+        if (value>max) value = max;
+        return value;
+    }
+    public static boolean isOutOfRange(double value, double min, double max) {
+        if (value<min) return true;
+        if (value>max) return true;
+        return false;
+    }
+    public static boolean isOutOfRange(int value, int min, int max) {
+        if (value<min) return true;
+        if (value>max) return true;
+        return false;
     }
 
     public static class Audio {

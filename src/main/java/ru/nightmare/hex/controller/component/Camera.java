@@ -1,5 +1,7 @@
 package ru.nightmare.hex.controller.component;
 
+import static ru.nightmare.hex.controller.component.Util.limitValue;
+
 public class Camera {
     public static float x = 5;
     public static float y = 5;
@@ -35,9 +37,11 @@ public class Camera {
     public static void step() {
         x         +=speedX;
         y         +=speedY;
-        move(-speedX/50, -speedY/50);
+        move(-speedX/2.25f, -speedY/2.25f);
         zoom      +=zoomSpeed;
+        System.out.println(zoom);
         zoomSpeed /=2;
+        zoom = (float) limitValue(zoom, 0.3, 8);
         if (Math.abs(speed)<0.1) {
             speed  = 0;
             speedX = 0;

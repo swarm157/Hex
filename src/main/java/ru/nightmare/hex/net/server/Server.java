@@ -34,7 +34,7 @@ public class Server implements World {
     protected int width;
     protected int height;
 
-    private void initWorld() {
+    private void initWorld() throws IOException {
         world = new Hex[width][height];
         for(int i = 0; i < width; i++) {
             world[i] = new Hex[height];
@@ -48,6 +48,23 @@ public class Server implements World {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 matrix[i][j].setBiome(Biomes.values()[random.nextInt(0, Biomes.values().length-1)]);
+            }
+        }
+        for (int i = 0; i < players.size(); i++) {
+            int x = random.nextInt(0, matrix.length-1);
+            int y = random.nextInt(0, matrix[0].length-1);
+            while (true) {
+                if (matrix[x][y].getType()!=Type.empty) {
+                    x = random.nextInt(0, matrix.length-1);
+                    y = random.nextInt(0, matrix[0].length-1);
+                } else {
+                    Hex hex = matrix[x][y];
+                    hex.setType(Type.builder);
+                    hex.setOwnerId(i);
+                    hex.setHealth(100);
+                    hex.setLevel(3);
+                    break;
+                }
             }
         }
 
